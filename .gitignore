@@ -1,0 +1,8 @@
+# private package signing key
+solr.cool.pem
+
+# stuff
+target
+.vscode
+.settings
+.project
