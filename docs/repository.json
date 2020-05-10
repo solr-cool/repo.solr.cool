@@ -1,45 +1,101 @@
 [
-    {
-      "name": "sematext-example",
-      "description": "Example plugin created for blog post",
-      "versions": [
-        {
-          "version": "1.0.0",
-          "date": "2020-04-16",
-          "artifacts": [
+  {
+    "name": "Querqy",
+    "description": "Query preprocessor for Java-based search engines",
+    "versions": [
+      {
+        "date": "2020-04-21",
+        "artifacts": [
+          {
+            "url": "https://repo1.maven.org/maven2/org/querqy/querqy-solr/4.8.lucene810.0/querqy-solr-4.8.lucene810.0-jar-with-dependencies.jar",
+            "sig": "ilPE0DHdbS8Ww+8/pK55yOWdoghAc4PlKLgjo69O69re3cw+nrVpmrkcmH5iT3dHbWJXWPXMJzmBeMCEisQ9Vw=="
+          }
+        ],
+        "manifest": {
+          "version-constraint": "8 - 9",
+          "plugins": [
             {
-              "url": "https://pub-repo.sematext.com/training/solr/blog/repo/solr-example-module-1.0.jar",
-              "sig": "gkuP5aFfNIViJ7B7Gvq9eAno1YyZD+M4vqK1OrFHjjawS2luJ6L0LNpV6pSVMd2ggJYT2dPvVq0MuAKVUJ6EVQ=="
+              "name": "query-parser",
+              "setup-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "add-requesthandler": {
+                    "name": "${RH-HANDLER-PATH}",
+                    "class": "sematext-example:com.sematext.blog.solr.ExampleRequestHandler"
+                  }
+                },
+                "method": "POST"
+              },
+              "uninstall-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "delete-requesthandler": "${RH-HANDLER-PATH}"
+                },
+                "method": "POST"
+              },
+              "verify-command": {
+                "path": "/api/collections/${collection}/config/requestHandler?componentName=${RH-HANDLER-PATH}&meta=true",
+                "method": "GET",
+                "condition": "$['config'].['requestHandler'].['${RH-HANDLER-PATH}'].['_packageinfo_'].['version']",
+                "expected": "${package-version}"
+              }
             }
           ],
-          "manifest": {
-            "version-constraint": "8 - 9",
-            "plugins": [
-              {
-                "name": "request-handler",
-                "setup-command": {
-                  "path": "/api/collections/${collection}/config",
-                  "payload": {"add-requesthandler": {"name": "${RH-HANDLER-PATH}", "class": "sematext-example:com.sematext.blog.solr.ExampleRequestHandler"}},
-                  "method": "POST"
-                },
-                "uninstall-command": {
-                  "path": "/api/collections/${collection}/config",
-                  "payload": {"delete-requesthandler": "${RH-HANDLER-PATH}"},
-                  "method": "POST"
-                },
-                "verify-command": {
-                  "path": "/api/collections/${collection}/config/requestHandler?componentName=${RH-HANDLER-PATH}&meta=true",
-                  "method": "GET",
-                  "condition": "$['config'].['requestHandler'].['${RH-HANDLER-PATH}'].['_packageinfo_'].['version']",
-                  "expected": "${package-version}"
-                }
-              }
-            ],
-            "parameter-defaults": {
-              "RH-HANDLER-PATH": "/sematextexample"
-            }
+          "parameter-defaults": {
+            "RH-HANDLER-PATH": "/sematextexample"
           }
         }
-      ]
-    }
-  ]
+      }
+    ]
+  },
+  {
+    "name": "sematext-example",
+    "description": "Example plugin created for blog post",
+    "versions": [
+      {
+        "version": "1.0.0",
+        "date": "2020-04-16",
+        "artifacts": [
+          {
+            "url": "https://pub-repo.sematext.com/training/solr/blog/repo/solr-example-module-1.0.jar",
+            "sig": "gkuP5aFfNIViJ7B7Gvq9eAno1YyZD+M4vqK1OrFHjjawS2luJ6L0LNpV6pSVMd2ggJYT2dPvVq0MuAKVUJ6EVQ=="
+          }
+        ],
+        "manifest": {
+          "version-constraint": "8 - 9",
+          "plugins": [
+            {
+              "name": "request-handler",
+              "setup-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "add-requesthandler": {
+                    "name": "${RH-HANDLER-PATH}",
+                    "class": "sematext-example:com.sematext.blog.solr.ExampleRequestHandler"
+                  }
+                },
+                "method": "POST"
+              },
+              "uninstall-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "delete-requesthandler": "${RH-HANDLER-PATH}"
+                },
+                "method": "POST"
+              },
+              "verify-command": {
+                "path": "/api/collections/${collection}/config/requestHandler?componentName=${RH-HANDLER-PATH}&meta=true",
+                "method": "GET",
+                "condition": "$['config'].['requestHandler'].['${RH-HANDLER-PATH}'].['_packageinfo_'].['version']",
+                "expected": "${package-version}"
+              }
+            }
+          ],
+          "parameter-defaults": {
+            "RH-HANDLER-PATH": "/sematextexample"
+          }
+        }
+      }
+    ]
+  }
+]
