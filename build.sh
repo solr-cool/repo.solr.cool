@@ -28,7 +28,7 @@ for plugin in ./plugins/*.json; do
 
     # sign jars
     echo -n "Signing ... "
-    signature=$(openssl dgst -sha1 -sign solr.cool.pem target/${name}.jar | openssl enc -base64 | tr -d \\n | sed)
+    signature=$(openssl dgst -sha1 -sign solr.cool.pem target/${name}.jar | openssl enc -base64 | tr -d \\n)
     echo ${signature}
 
     # append signature in plugin descriptor
