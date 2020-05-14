@@ -1,5 +1,5 @@
 dist: bionic
-language: generic
+language: minimal
 services:
   - docker
 before_install:
@@ -9,5 +9,5 @@ before_install:
   - sudo apt-get -q update
   - sudo apt-get -y install bats
 script:
-  - build.sh
+  - ./build.sh
   - bats test
