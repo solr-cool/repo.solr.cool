@@ -10,4 +10,4 @@ before_install:
   - sudo apt-get -y install bats
 script:
   - ./build.sh
-  - bats test
+  - bats -t test
