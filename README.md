@@ -1,38 +1,27 @@
-# solr.cool plugin repository
+# repo.solr.cool
 
-This is a draft of a draft of a ... you get the idea. I'm working on it ;-)
+> ⚠️ This is a draft of a draft of a ... you get the idea. I'm working on it ;-)
 
-## Testing
+This repository holds the sources for the [repo.solr.cool](https://repo.solr.cool)
+[Solr](https://lucene.apache.org/solr/) plugin repository. You find a human 
+readable representation at [solr.cool](https://solr.cool).
 
-Fire up the docker compose and exec into the Solr instance.
+To use this repository, add it to your Solr installation:
 
 ```bash
-$ solr package add-repo solr.cool http://repo:8080
-
-Found 1 Solr nodes:
-
-Solr process 10 running on port 8983
-Added repository: solr.cool
-$ solr package list-available
-
-Found 1 Solr nodes:
-
-Solr process 10 running on port 8983
-Available packages:
------
-sematext-example 		Example plugin created for blog post
-	Version: 1.0.0
-
-$ solr package install sematext-example:1.0.0
-
-Found 1 Solr nodes:
-
-Solr process 10 running on port 8983
-Posting manifest...
-Posting artifacts...
-Executing Package API to register this package...
-Response: {"responseHeader":{
-    "status":0,
-    "QTime":87}}
-sematext-example installed.
+solr package add-repo solr.cool https://repo.solr.cool
+solr package list-available
+solr package install AWESOME_PLUGIN
 ```
+
+## Plugins
+
+This repository acts as a proxy repository. We do not build or maintain the 
+plugins ourselves. We distribute them via this repository to provide a easy,
+unified access to these awesome Solr plugins.
+
+* Sematext Test Plugin ;-)
+
+## Contributing
+
+Add plugin descriptors in the `plugins/` directory, a single file per plugin.
