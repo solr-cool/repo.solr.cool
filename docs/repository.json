@@ -97,5 +97,49 @@
         }
       }
     ]
+  },
+  {
+    "name": "thymeleaf",
+    "description": "Render query responses in Solr using Thymeleaf templates (instead of Velocity)",
+    "versions": [
+      {
+        "version": "0.9.12",
+        "date": "2018-09-12",
+        "artifacts": [
+          {
+            "url": "https://search.maven.org/remotecontent?filepath=com/s24/search/solr/solr-thymeleaf/0.9.12/solr-thymeleaf-0.9.12-jar-with-dependencies.jar",
+            "sig": "g8t/ggoPNCdZt+FZfjNjzpxPF68BD7WvkIuACW/te0EQ7OjQBF39K/ePFLDl8SHdywLF1Xow8kam0fa9KqdWOg=="
+          }
+        ],
+        "manifest": {
+          "version-constraint": "6 - 9",
+          "plugins": [
+            {
+              "name": "queryresponsewriter",
+              "setup-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "add-queryresponsewriter": {
+                    "name": "${THYMELEAF_QRW_NAME}",
+                    "class": "thymeleaf:com.s24.search.solr.response.ThymeleafResponseWriter"
+                  }
+                },
+                "method": "POST"
+              },
+              "uninstall-command": {
+                "path": "/api/collections/${collection}/config",
+                "payload": {
+                  "delete-queryresponsewriter": "${THYMELEAF_QRW_NAME}"
+                },
+                "method": "POST"
+              }
+            }
+          ],
+          "parameter-defaults": {
+            "THYMELEAF_QRW_NAME": "html"
+          }
+        }
+      }
+    ]
   }
 ]
