@@ -4,7 +4,7 @@ load 'helper/docker-support'
 
 @test "Launch Solr" {
   run docker-compose -f $BATS_TEST_DIRNAME/docker-compose.yaml up -d
-  docker_wait_for_log test_solr_1 120 "o.e.j.s.Server Started"
+  docker_wait_for_log solr 120 "o.e.j.s.Server Started"
 }
 
 @test "Solr up and running" {
@@ -13,13 +13,13 @@ load 'helper/docker-support'
 }
 
 @test "solr package add-repo" {
-  run docker exec -it test_solr_1 solr package add-repo solr.cool http://repo:8080
+  run docker exec -it solr solr package add-repo solr.cool http://repo:8080
   assert_success
   assert_output --partial 'Added repository: solr.cool'
 }
 
 @test "solr package list-available" {
-  run docker exec -it test_solr_1 solr package list-available
+  run docker exec -it solr solr package list-available
   assert_success
   assert_output --partial 'sematext-example'
   assert_output --partial 'Querqy'
