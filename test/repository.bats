@@ -44,11 +44,11 @@ load 'helper/docker-support'
   assert_output --partial 'thymeleaf installed'
 }
 
-@test "[thymeleaf] deploy" {
-  run docker exec -it solr solr package deploy thymeleaf -collections films
-  assert_success
-  #assert_output --partial 'thymeleaf installed'
-}
+#@test "[thymeleaf] deploy" {
+#  run docker exec -it solr solr package deploy thymeleaf -collections films
+#  assert_success
+#  #assert_output --partial 'thymeleaf installed'
+#}
 
 @test "Tear Solr down" {
   docker-compose -f $BATS_TEST_DIRNAME/docker-compose.yaml down
