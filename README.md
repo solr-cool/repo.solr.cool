@@ -29,12 +29,48 @@ unified access to these awesome Solr plugins.
 1. Add the plugin descriptor in the `plugins/` directory, 
    a single file per plugin. If you have multiple versions
    and/or Solr target versions, add them to the file as well.
-1. Build the repository locally
-   ```
-   $ ./build.sh
-   ```
-1. Use [bats](https://github.com/bats-core/bats-core) to execute 
-   the tests:
-   ```
-   $ bats -t test
-   ```
+
+### Testing your contribution
+
+This is a guide to test your contribution.
+
+> There is a [bats](https://github.com/bats-core/bats-core) test suite
+> in place that checks availability of all available plugins and installs
+> and deploys them into a Solr test instance.
+
+Build the repository locally and launch a Solr/Zookeeper/
+Repository ensemble in Docker. You can access the Solr admin
+interface on [localhost:8983](http://localhost:8983/solr). The
+local repository is available at `repo:8080` from inside the Docker
+network.
+
+```
+$ ./build.sh
+$ docker-compose -f test/docker-compose.yaml up -d
+```
+
+Add the local repository to the Solr test instance.
+```
+$ docker exec -it solr solr package add-repo solr.cool http://repo:8080
+```
+
+Install your plugin (we use the `thymeleaf` plugin in this case)
+
+```
+$ docker exec -it solr solr package install thymeleaf
+```
+
+To verify we can deploy the plugin into a existing collection, we
+create the example _films_ collection and index some data.
+
+```
+$ docker exec -it solr solr create -c films
+$ docker exec -it solr post -c films example/films/films.json 
+```
+
+Afterwards we deploy the `thymeleaf` plugin into the created
+_films_ collection
+
+```
+$ docker exec -it solr solr package deploy thymeleaf -collections films
+```
